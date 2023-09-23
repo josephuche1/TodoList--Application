@@ -5,6 +5,10 @@ const port = 3000;
 
 app.use(express.static("public/"));
 
+app.get("/work", (req,res) =>{
+   res.render("work.ejs");
+});
+
 app.get("/", (req, res) => {
    res.render("index.ejs");
 });
