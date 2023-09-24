@@ -1,17 +1,18 @@
 <%- include("partials/header.ejs") %>
   <div class="container d-flex justify-content-center">
-    <div class="row user-input w-50">
-        <input name="task" type="text" id="new-task" placeholder="What will you do today?" class="col-8">
-        <button type="submit" id="submit" class="col-4 text-light">+</button>
-    </div>
+    <form class="row user-input w-50" action="/add_task_work" method="POST">
+        <input name="newTask" type="text" id="new-task" placeholder="What will you do today?" class="col-8">
+        <input type="submit" id="submit" class="col-4 text-light" value="+">
+    </form>
   </div>
   
   <div class="container m-5 d-flex justify-content-center">
-    <div class="row w-50">
-      <div class="task col-12 bg-white p-2"><input type="checkbox" class="check" name="check" > Task 1</div>
-      <div class="task col-12 bg-white p-2"><input type="checkbox" class="check" name="check" > Task 2</div>
-    </div>
+    <% if(locals.worksTask){ %>
+      <div class="row w-50">
+        <% for(let i = 0; i < worksTask.length; i++){ %>
+          <div class="task col-12 bg-white p-2"><input type="checkbox" class="check" name="check" > <%= worksTask[i] %></div>
+        <% } %>
+      </div>
+    <% } %>
   </div>
-
-  
 <%- include("partials/footer.ejs") %>
