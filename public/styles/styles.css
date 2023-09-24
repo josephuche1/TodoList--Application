@@ -1,10 +1,10 @@
 main{
-    height: 100vh;
+    height: 80vh;
     display: flex;
     justify-content: center;
     align-items: center;
     background-color: #C08261 ;
-    flex-direction: column;
+    flex-direction:column;
 }
 
 #new-task, #submit{
@@ -14,31 +14,19 @@ main{
 #new-task{
     width:70%;
     height:100%;
-    font-size: 24px;
+    font-size: x-large;
 }
 #submit{
     width: 30%;
     height:100%;
     background-color: #9A3B3B;
-    color: white;
+    font-weight: bold;
+    font-size: xx-large;
 }
 .user-input{
     width: 50%;
     height: 50px;
     display: flex;
-}
-
-.task{
-    height: 60px;
-    background-color: white;
-    list-style: none;
-    border-bottom: 2px black solid;
-    width:50%;
-    margin: 5px;
-    margin-bottom:0;
-    margin-top: 0;
-    font-size: 25px;
-    padding: 10px;
 }
 
 body{
@@ -53,4 +41,61 @@ body{
 input.check{
     width:20px;
     height: 20px;
+}
+
+.task{
+    font-size:x-large;
+}
+
+@media (max-width:576px){
+   .task, #new-task{
+     font-size: small;
+   }
+
+   #submit{
+    font-size: large;
+   }
+   input.check{
+      width: 10px;
+      height: 10px;
+    }
+}
+
+@media (min-width:576px){
+    .task, #new-task{
+      font-size: small;
+    }
+    #submit{
+        font-size: large;
+    }
+    input.check{
+        width: 10px;
+        height: 10px;
+    }
+ }
+
+@media (min-width: 768px){
+    .task, #new-task{
+        font-size: medium;
+    }
+    #submit{
+        font-size: x-large;
+    }
+    input.check{
+        width: 16px;
+        height: 16px;
+    }
+}
+
+@media (min-width: 992px){
+    .task, #new-task{
+        font-size: x-large;
+    }
+    #submit{
+        font-size: xx-large;
+    }
+    input.check{
+        width:20px;
+        height: 20px;
+    }
 }
