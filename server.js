@@ -5,7 +5,8 @@ const app = express();
 const port = 3000;
 
 let currentTab; 
-let tabs = ["today", "work"];
+// let tabs = ["today", "work"];
+// let addedNewTask = false;
 
 let todayTasks = [];
 let workTasks = [];
@@ -17,28 +18,24 @@ app.use(express.static("public"));
 
 app.post("/add_task_today", (req, res) => {
    todayTasks.push(req.body["newTask"]);
-   for(let i = 0; i < todayTasks.length; i++){
-      console.log(todayTasks[i]);
-   }
+   console.log(todayTasks);
    res.render("index.ejs", {tab: currentTab, active: "active-tab", todaysTask: todayTasks});
 });
 
 app.post("/add_task_work", (req, res) => {
    workTasks.push(req.body["newTask"]);
-   for(let i = 0; i < workTasks.length; i++){
-      console.log(workTasks[i]);
-   }
+   console.log(workTasks);
    res.render("work.ejs", {tab: currentTab, active: "active-tab", worksTask: workTasks});
 });
 
 app.get("/work", (req,res) =>{
    currentTab = "work";
-   res.render("work.ejs", {tab: currentTab, active: "active-tab"});
+   res.render("work.ejs", {tab: currentTab, active: "active-tab", worksTask: workTasks});
 });
 
 app.get("/", (req, res) => {
    currentTab = "today";
-   res.render("index.ejs", {tab: currentTab, active: "active-tab"});
+   res.render("index.ejs", {tab: currentTab, active: "active-tab", todaysTask: todayTasks});
 });
 
 app.listen(port, ()=>{
