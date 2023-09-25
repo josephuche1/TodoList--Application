@@ -15,14 +15,14 @@
           <ul class="nav nav-pills">
             <% if(locals.tab && locals.active){ %>
               <% if(tab == "today") {%>
-                <li class="nav-item  <%= active %>" id="today-section"><a href="/" class="nav-link text-dark" id="today-link">Today</a></li>
+                <li class="nav-item  <%= active %>" id="today-section"><a href="/" class="nav-link text-light" id="today-link">Today</a></li>
                 <li class="nav-item" id="work-section"><a href="/work" class="nav-link text-dark" id="work-link" >Work</a></li>
               <% }else{ %>
                 <li class="nav-item" id="today-section"><a href="/" class="nav-link text-dark" id="today-link">Today</a></li>
-                <li class="nav-item  <%= active %>" id="work-section"><a href="/work" class="nav-link text-dark" id="work-link" >Work</a></li>
+                <li class="nav-item  <%= active %>" id="work-section"><a href="/work" class="nav-link text-light" id="work-link" >Work</a></li>
               <%} %>
             <% } else{ %>
-              <li class="nav-item <%= active %>" id="today-section"><a href="/" class="nav-link text-dark" id="today-link">Today</a></li>
+              <li class="nav-item <%= active %>" id="today-section"><a href="/" class="nav-link text-light" id="today-link">Today</a></li>
               <li class="nav-item" id="work-section"><a href="/work" class="nav-link text-dark" id="work-link" >Work</a></li>
             <% } %>
           </ul>

@@ -47,6 +47,10 @@ input.check{
     font-size:x-large;
 }
 
+.completed{
+    text-decoration: line-through;
+}
+
 @media (max-width:576px){
    .task, #new-task{
      font-size: small;

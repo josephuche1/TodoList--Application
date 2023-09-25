@@ -9,9 +9,13 @@
   <div class="container m-5 d-flex justify-content-center">
     <% if(locals.todaysTask){ %>
       <div class="row w-50">
-        <% for(let i = 0; i < todaysTask.length; i++){ %>
-          <div class="task col-12 bg-white p-2"><input type="checkbox" class="check" name="check" > <%= todaysTask[i] %></div>
-        <% } %>
+        <% for (let i = 0; i < todaysTask.length; i++) { %>
+          <div class="task col-12 bg-white p-2">
+              <input type="checkbox" class="check" data-text-id="<%= i %>">
+              <span class="task-text"><%= todaysTask[i] %></span>
+          </div>
+      <% } %>
+      
       </div>
     <% } %>
   </div>

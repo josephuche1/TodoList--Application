@@ -5,8 +5,7 @@ const app = express();
 const port = 3000;
 
 let currentTab; 
-// let tabs = ["today", "work"];
-// let addedNewTask = false;
+let tabs = ["today", "work"];
 
 let todayTasks = [];
 let workTasks = [];
@@ -29,12 +28,12 @@ app.post("/add_task_work", (req, res) => {
 });
 
 app.get("/work", (req,res) =>{
-   currentTab = "work";
+   currentTab = tabs[1];
    res.render("work.ejs", {tab: currentTab, active: "active-tab", worksTask: workTasks});
 });
 
 app.get("/", (req, res) => {
-   currentTab = "today";
+   currentTab = tabs[0];
    res.render("index.ejs", {tab: currentTab, active: "active-tab", todaysTask: todayTasks});
 });
 

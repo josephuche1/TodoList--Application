@@ -10,7 +10,10 @@
     <% if(locals.worksTask){ %>
       <div class="row w-50">
         <% for(let i = 0; i < worksTask.length; i++){ %>
-          <div class="task col-12 bg-white p-2"><input type="checkbox" class="check" name="check" > <%= worksTask[i] %></div>
+          <div class="task col-12 bg-white p-2">
+            <input type="checkbox" class="check" data-text-id="<%= i %>">
+            <span class="task-text"><%= worksTask[i] %></span>
+        </div>
         <% } %>
       </div>
     <% } %>
