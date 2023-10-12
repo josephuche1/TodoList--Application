@@ -1,105 +1,113 @@
-main{
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #C08261 ;
-    flex-direction:column;
-}
-
-#new-task, #submit{
-    border: none;
-    margin: 0;
-}
-#new-task{
-    width:70%;
-    height:100%;
-    font-size: x-large;
-}
-#submit{
-    width: 30%;
-    height:100%;
-    background-color: #9A3B3B;
-    font-weight: bold;
-    font-size: xx-large;
-}
-.user-input{
-    width: 50%;
-    height: 50px;
-    display: flex;
-}
+/* *{
+    border: 1px black solid;
+} */
 
 body{
+    height: 100%;
+    min-height: 100vh;
+}
+
+#main{
     background-color:#C08261 ;
+    margin-bottom:0;
+    padding-bottom: 20px;
+    border-top: 1px white solid;
+}
+
+#input-task *{
+   border: none;
+   font-weight: bold;
+}
+
+#submit{
+     background-color:#9A3B3B ;
+     color:white;
+}
+
+h1{
+    text-align: center;
+}
+
+#task-list{
+  background-color: white;
+  border-radius: 5px;
 }
 
 .active-tab{
-    background-color:#9A3B3B;
+    background-color: #9A3B3B;
+    color: white;
     border-radius: 5px;
 }
 
-input.check{
-    width:20px;
-    height: 20px;
-}
+/* colors 
+#9A3B3B
+#C08261*/
 
-.task{
-    font-size:x-large;
-}
-
-.completed{
-    text-decoration: line-through;
-}
-
-@media (max-width:576px){
-   .task, #new-task{
-     font-size: small;
-   }
-
-   #submit{
-    font-size: large;
-   }
-   input.check{
-      width: 10px;
-      height: 10px;
+@media (max-width: 576px ),  (min-width: 576px){
+    #input-task *{
+        border: none;
+        font-weight: bold;
+        font-size: 15px;
     }
-}
-
-@media (min-width:576px){
-    .task, #new-task{
-      font-size: small;
-    }
-    #submit{
-        font-size: large;
-    }
+    
     input.check{
-        width: 10px;
-        height: 10px;
+        height: 15px;
+        width: 15px;
     }
- }
+
+    #task{
+        font-size: 18px;
+    }
+    #input-task{
+        width: 90%;
+    }
+    #task-list{
+        width: 90%;
+    }
+}
 
 @media (min-width: 768px){
-    .task, #new-task{
-        font-size: medium;
+    #input-task *{
+        border: none;
+        font-weight: bold;
+        font-size: 20px;
     }
-    #submit{
-        font-size: x-large;
-    }
+    
     input.check{
-        width: 16px;
-        height: 16px;
+        height: 20px;
+        width: 20px;
+    }
+
+    #task{
+        font-size: 23px;
+    }
+    #input-task{
+        width: 70%;
+    }
+    #task-list{
+        width: 70%;
     }
 }
 
 @media (min-width: 992px){
-    .task, #new-task{
-        font-size: x-large;
+    #input-task *{
+        border: none;
+        font-weight: bold;
+        font-size: 25px;
     }
-    #submit{
-        font-size: large;
-    }
+    
     input.check{
-        width:20px;
-        height: 20px;
+        height: 25px;
+        width: 25px;
+    }
+
+    #task{
+        font-size: 25px;
+    }
+    #input-task{
+        width: 50%;
+    }
+    #task-list{
+        width: 50%;
     }
 }

@@ -1,26 +1,30 @@
 <%- include("partials/header.ejs") %>
-  <% if(locals.date){ %>
-    <h1 class="mb-5 text-light fw-bolder "><%= date %></h1>
-  <% } %>
-  <div class="container d-flex justify-content-center">
-    <form class="row user-input w-50 shadow" action="/add_task_today" method="POST">
-        <input name="newTask" type="text" id="new-task" placeholder="What will you do today?" class="col-8 rounded-start-2">
-        <input type="submit" id="submit" class="col-4 text-light rounded-end-2" value="+">
+  <div class="container w-50 my-5 p-0">
+    <% if(locals.date){ %>
+      <h1 class="fw-bold text-light"><%= date %></h1>
+    <% } %>
+  </div>
+  
+  <div id="input-task" class="container mb-3 shadow">
+    <form action="/add_task_today" method="POST" class="row px-2 ">
+        <input name="newTask" type="text" placeholder="What will you do today?" class="col-10" required>
+        <input type="submit" id="submit"  value="+" class="col-2 fs-4">
     </form>
   </div>
   
-  <div class="container m-5 d-flex justify-content-center">
+  <div id="task-list" class="container mb-3 px-4 shadow">
     <% let i = 0; %>
     <% if(locals.todaysTask){ %>
-      <div class="row w-50 shadow">
+      <div class="row">
         <% todaysTask.forEach((todo) => {%>
-          <div class="task col-12 bg-white p-2 border-bottom">
-              <input type="checkbox" class="check" data-text-id="<%= i %>">
-              <span class="task-text"><%= todo.task %></span>
+          <form class="col-12 px-0 ">
+            <div class="w-100 py-3 border-bottom">
+              <input type="checkbox" data-text-id="<%= i %>" class="check ms-0">
+              <span id="task" class=" ms-2"><%= todo.task %></span>
               <% i++; %>
           </div>
-      <% }); %>
-      
+          </form>
+       <% }) %>
       </div>
     <% } %>
   </div>
