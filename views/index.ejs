@@ -17,12 +17,12 @@
     <% if(locals.todaysTask){ %>
       <div class="row">
         <% todaysTask.forEach((todo) => {%>
-          <form class="col-12 px-0 ">
+          <form action="/delete" method="post" class="col-12 px-0 ">
             <div class="w-100 py-3 border-bottom">
-              <input type="checkbox" data-text-id="<%= i %>" class="check ms-0">
+              <input name="checkbox" type="checkbox" data-text-id="<%= i %>" class="check ms-0" onChange="this.form.submit()" value="<%= todo._id %>">
               <span id="task" class=" ms-2"><%= todo.task %></span>
               <% i++; %>
-          </div>
+            </div>
           </form>
        <% }) %>
       </div>

@@ -48,13 +48,26 @@ const task3 = new Task({
 
 const defaultItems = [task1, task2, task3];
 
-app.post("/add_task_today", async (req, res) => {
+app.post("/add_task_today", async (req, res) => { 
    const newTask = req.body.newTask;
     
    const task = new Task({
      task: newTask
    });
    await task.save();
+   res.redirect("/");
+});
+
+app.post("/delete", async (req,res) => {
+   const checkedTask = req.body.checkbox;
+   await Task.deleteOne({_id: checkedTask})
+       .then(() => {
+         console.log("Successfully deleted task.");
+       })
+       .catch((err) => {
+         console.log(`Failed to delete task: ${err}`);
+       });
+   
    res.redirect("/");
 });
 
@@ -76,10 +89,10 @@ app.get("/", async (req, res) => {
    if(tasks.length === 0){
       Task.insertMany(defaultItems, {ordered:true})
         .then(() =>{
-           console.log(`Successful`);
+           console.log(`Successfully added tasks`);
         })
         .catch(() => {
-           console.log(`Failed`);
+           console.log(`failed to add tasks`);
         });;
        res.redirect("/");  
    } else{
