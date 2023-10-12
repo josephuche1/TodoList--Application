@@ -1,21 +1,29 @@
 import express from "express";
 import bodyParser from "body-parser";
+import mongoose from "mongoose";
 
 const app = express();
 const port = 3000;
 
+mongoose.connect("mongodb://localhost:27017/todolistDB");
+
+const tasksSchema = new mongoose.Schema({
+   task:{
+      type: String,
+      required: [true, "Please type in an item."]
+   }
+});
+
+const Task = mongoose.model("Task", tasksSchema);
+const workTask = mongoose.model("workTask", tasksSchema);
+
 let currentTab; 
 let tabs = ["today", "work"];
-let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
-let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"]
+let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 
-let todayTasks = [];
-let workTasks = [];
 let d = new Date();
-let month = months[d.getMonth()];
-let day = days[d.getDay()];
-let dateNum = d.getDate();
-let fullDate = day + ", "+month+" "+dateNum;
+let fullDate = days[d.getDay()]+", "+months[d.getMonth()]+" "+d.getDate();
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
