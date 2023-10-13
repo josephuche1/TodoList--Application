@@ -158,7 +158,18 @@ app.get("/:customListName", async (req, res) => {
       res.redirect(`/${newListName}`);
     }
     
- })
+ });
+
+ app.post("/deleteList", async (req,res) => {
+    const listName = req.body.listName;
+    await List.findOneAndDelete({name: listName})
+       .then(()=>{
+         console.log("Successfully deleted list.");
+         res.redirect("/");
+       }).catch(() => {
+         console.log("Failed to delete list. Try Again");
+       })
+ });
 
 app.listen(port, ()=>{
     console.log(`Server running from port ${port}`)

@@ -34,11 +34,12 @@ h1{
   border-radius: 5px;
 }
 
-.active-tab{
+.lists{
     background-color: #9A3B3B;
-    color: white;
     border-radius: 5px;
+    width: 25%;
 }
+
 
 /* colors 
 #9A3B3B
@@ -65,6 +66,10 @@ h1{
     #task-list{
         width: 90%;
     }
+    .lists{
+        width:70%;
+    }
+    
 }
 
 @media (min-width: 768px){
@@ -88,6 +93,9 @@ h1{
     #task-list{
         width: 70%;
     }
+    .lists{
+        width:50%;
+    }
 }
 
 @media (min-width: 992px){
@@ -110,5 +118,8 @@ h1{
     }
     #task-list{
         width: 50%;
+    }
+    .lists{
+        width:25%;
     }
 }
