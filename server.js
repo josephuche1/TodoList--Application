@@ -10,12 +10,12 @@ let d = new Date();
 let fullDate = days[d.getDay()]+", "+months[d.getMonth()]+" "+d.getDate();
 
 const app = express();
-const port = 3000;
+// const port = 3000;
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
-mongoose.connect("mongodb://localhost:27017/todolistDB")
+mongoose.connect("mongodb+srv://admin-joseph:olisa312@todolist.vkymokh.mongodb.net/todolistDB")
    .then(()=>{
       console.log("Connected to DB successfully.");
    })
@@ -171,6 +171,12 @@ app.get("/:customListName", async (req, res) => {
        })
  });
 
+
+let port = process.env.PORT;
+if (port == null || port == "") {
+  port = 3000;
+}
+
 app.listen(port, ()=>{
-    console.log(`Server running from port ${port}`)
+    console.log(`Server has started successfully`)
 });
