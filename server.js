@@ -2,11 +2,9 @@ import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
 
-let currentTab; 
-let tabs = ["today", "work"];
+
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 let days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
-
 let d = new Date();
 let fullDate = days[d.getDay()]+", "+months[d.getMonth()]+" "+d.getDate();
 
@@ -32,7 +30,6 @@ const tasksSchema = new mongoose.Schema({
 });
 
 const Task = mongoose.model("Task", tasksSchema);
-const workTask = mongoose.model("workTask", tasksSchema);
 
 const task1 = new Task({
    task: "Welcome to your todolist!"
@@ -48,58 +45,107 @@ const task3 = new Task({
 
 const defaultItems = [task1, task2, task3];
 
-app.post("/add_task_today", async (req, res) => { 
-   const newTask = req.body.newTask;
-    
-   const task = new Task({
-     task: newTask
-   });
-   await task.save();
-   res.redirect("/");
+const listSchema = new mongoose.Schema({
+   name: {
+      type: String,
+      required: [true, "The custom list should have a name."]
+   },
+   items: [tasksSchema]
 });
 
-app.post("/delete", async (req,res) => {
-   const checkedTask = req.body.checkbox;
-   await Task.deleteOne({_id: checkedTask})
-       .then(() => {
-         console.log("Successfully deleted task.");
-       })
-       .catch((err) => {
-         console.log(`Failed to delete task: ${err}`);
-       });
-   
-   res.redirect("/");
-});
-
-app.post("/add_task_work", (req, res) => {
-   workTasks.push(req.body["newTask"]);
-   console.log("Work: ");
-   console.log(workTasks);
-   res.render("work.ejs", {tab: currentTab, active: "active-tab", worksTask: workTasks, date: fullDate});
-});
-
-app.get("/work", (req,res) =>{
-   currentTab = tabs[1];
-   res.render("work.ejs", {tab: currentTab, active: "active-tab", worksTask: workTasks, date: fullDate});
-});
+const List = mongoose.model("list", listSchema);
 
 app.get("/", async (req, res) => {
-   currentTab = tabs[0];
    const tasks = await Task.find({});
+   const lists = await List.find({});
    if(tasks.length === 0){
       Task.insertMany(defaultItems, {ordered:true})
         .then(() =>{
            console.log(`Successfully added tasks`);
         })
-        .catch(() => {
-           console.log(`failed to add tasks`);
+        .catch((error) => {
+           console.log(`failed to add tasks: ${error}`);
         });;
        res.redirect("/");  
    } else{
-      res.render("index.ejs", {tab: currentTab, active: "active-tab", todaysTask: tasks, date: fullDate});
+      res.render("lists.ejs", {lists: lists || [], todaysTask: tasks, title: fullDate})
    }
    
 });
+
+app.post("/", async (req, res) => { 
+   const newTask = req.body.newTask;
+   const listName = req.body.list;
+    
+   const task = new Task({
+     task: newTask
+   });
+   if(listName === fullDate){
+      await task.save();
+      res.redirect("/");
+   } else{
+      const listToEdit = await List.findOne({name: listName});
+      listToEdit.items.push(task);
+      await listToEdit.save()
+      res.redirect(`/${listName}`);
+   }
+   
+});
+
+app.post("/delete", async (req,res) => {
+   const checkedTask = req.body.checkbox;
+   const listName = req.body.list;
+
+   if(listName === fullDate){
+      await Task.findByIdAndDelete({_id: checkedTask})
+      .then(() => {
+        console.log("Successfully deleted task.");
+      })
+      .catch((err) => {
+        console.log(`Failed to delete task: ${err}`);
+      });
+  
+       res.redirect("/");
+   } else{
+      List.findOneAndUpdate(
+         {name: listName},
+         {$pull: {items: {_id: checkedTask}}}
+      ).then(() => {
+         res.redirect(`/${listName}`);
+   }).catch((error) => {
+      res.send(error)
+   })
+      
+   }
+});
+
+app.get("/:customListName", async (req, res) => {
+   const customListName = req.params.customListName;
+ 
+   try {
+     const list = await List.findOne({ name: customListName });
+ 
+     if (list) {
+       const lists = await List.find({});
+       res.render("lists.ejs", {lists: lists || [], todaysTask: list.items, title: list.name});
+
+     } else {
+       console.log(`List with name '${customListName}' not found. Creating newlist`);
+       const newlist = new List({
+         name: customListName,
+         items: defaultItems
+       });
+       await newlist.save();
+       res.redirect(`/${customListName}`);
+     }
+ 
+   } catch (err) {
+     // Handle any errors that may occur during the query.
+     console.log(err);
+     res.status(500).send("Internal server error");
+   }
+ });
+ 
 
 app.listen(port, ()=>{
     console.log(`Server running from port ${port}`)

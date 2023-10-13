@@ -1,14 +1,13 @@
 <%- include("partials/header.ejs") %>
   <div class="container w-50 my-5 p-0">
-    <% if(locals.date){ %>
-      <h1 class="fw-bold text-light"><%= date %></h1>
-    <% } %>
+    <h1 class="fw-bold text-light"><%= title %></h1>
   </div>
   
-  <div id="input-task" class="container mb-3 shadow">
-    <form action="/add_task_today" method="POST" class="row px-2 ">
-        <input name="newTask" type="text" placeholder="What will you do today?" class="col-10" required>
-        <input type="submit" id="submit"  value="+" class="col-2 fs-4">
+  <div id="input-task" class="container mb-3">
+    <form action="/" method="POST" class="row px-2 ">
+        <input name="newTask" type="text" placeholder="What will you do today?" class="col-10 rounded-start shadow" required>
+        <!-- <input type="submit" id="submit"  value="+" class="col-2 fs-4 rounded-end shadow"> -->
+        <button type="submit" id="submit" name="list" value="<%= title %>" class="col-2 fs-4 rounded-end shadow">+</button>
     </form>
   </div>
   
@@ -20,6 +19,7 @@
           <form action="/delete" method="post" class="col-12 px-0 ">
             <div class="w-100 py-3 border-bottom">
               <input name="checkbox" type="checkbox" data-text-id="<%= i %>" class="check ms-0" onChange="this.form.submit()" value="<%= todo._id %>">
+              <input type="hidden" name="list" value="<%= title %>">
               <span id="task" class=" ms-2"><%= todo.task %></span>
               <% i++; %>
             </div>
