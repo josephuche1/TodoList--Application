@@ -1,6 +1,7 @@
 import express from "express";
 import bodyParser from "body-parser";
 import mongoose from "mongoose";
+import _ from "lodash";
 
 
 let months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -68,7 +69,7 @@ app.get("/", async (req, res) => {
         });;
        res.redirect("/");  
    } else{
-      res.render("lists.ejs", {lists: lists || [], todaysTask: tasks, title: fullDate})
+      res.render("lists.ejs", {lists: lists, todaysTask: tasks, title: fullDate})
    }
    
 });
@@ -112,22 +113,24 @@ app.post("/delete", async (req,res) => {
          {$pull: {items: {_id: checkedTask}}}
       ).then(() => {
          res.redirect(`/${listName}`);
-   }).catch((error) => {
-      res.send(error)
+         console.log("Successfully deleted task.");
+   }).catch((err) => {
+      res.send(err);
+      console.log(`Failed to delete task: ${err}`);
    })
       
    }
 });
 
 app.get("/:customListName", async (req, res) => {
-   const customListName = req.params.customListName;
+   const customListName = _.capitalize(req.params.customListName);
  
    try {
      const list = await List.findOne({ name: customListName });
  
      if (list) {
        const lists = await List.find({});
-       res.render("lists.ejs", {lists: lists || [], todaysTask: list.items, title: list.name});
+       res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name});
 
      } else {
        console.log(`List with name '${customListName}' not found. Creating newlist`);
@@ -146,6 +149,16 @@ app.get("/:customListName", async (req, res) => {
    }
  });
  
+ app.post("/newList", (req, res) =>{
+    const newListName = _.capitalize(req.body.newList);
+    if(newListName === "Today"){
+      res.redirect("/")
+    }
+    else{
+      res.redirect(`/${newListName}`);
+    }
+    
+ })
 
 app.listen(port, ()=>{
     console.log(`Server running from port ${port}`)

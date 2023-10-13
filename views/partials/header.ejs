@@ -12,20 +12,19 @@
   
   <body>
     <section id="header">
-      <!-- <div class="container">
-        
-      </div> -->
       <header class="d-flex justify-content-left py-3">
-        <div class="container d-flex justify-content-around align-items-center border py-3">
+        <div class="container d-flex justify-content-around align-items-center py-3">
           <div class="dropdown">
             <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
               Show Lists
             </button>
             <ul class="dropdown-menu">
-              <form action="/" method="post" class="d-flex">
-                <input type="text" name="newList" placeholder="Add new list">
-                <input type="submit" value="+">
-              </form>
+              <li>
+                <form action="/newList" method="post" class="d-flex">
+                  <input type="text" name="newList" placeholder="Add new list">
+                  <input type="submit" value="+">
+                </form>
+              </li>
               <li> <a class="dropdown-item" href="/">Today</a></li>
               <% lists.forEach((list) =>{ %>
                  <li> <a class="dropdown-item" href="/<%= list.name %>"><%= list.name %></a></li>
