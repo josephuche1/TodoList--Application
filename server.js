@@ -124,29 +124,35 @@ app.post("/delete", async (req,res) => {
 
 app.get("/:customListName", async (req, res) => {
    const customListName = _.capitalize(req.params.customListName);
- 
-   try {
-     const list = await List.findOne({ name: customListName });
- 
-     if (list) {
-       const lists = await List.find({});
-       res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name});
 
-     } else {
-       console.log(`List with name '${customListName}' not found. Creating newlist`);
-       const newlist = new List({
-         name: customListName,
-         items: defaultItems
-       });
-       await newlist.save();
-       res.redirect(`/${customListName}`);
-     }
- 
-   } catch (err) {
-     // Handle any errors that may occur during the query.
-     console.log(err);
-     res.status(500).send("Internal server error");
+   if(customListName === "Favicon.ico"){
+      res.redirect("/favicon.ico")
    }
+   else{
+      try {
+         const list = await List.findOne({ name: customListName });
+     
+         if (list) {
+           const lists = await List.find({});
+           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name});
+    
+         } else {
+           console.log(`List with name '${customListName}' not found. Creating newlist`);
+           const newlist = new List({
+             name: customListName,
+             items: defaultItems
+           });
+           await newlist.save();
+           res.redirect(`/${customListName}`);
+         }
+     
+       } catch (err) {
+         // Handle any errors that may occur during the query.
+         console.log(err);
+         res.status(500).send("Internal server error");
+       }
+   }
+   
  });
  
  app.post("/newList", (req, res) =>{
@@ -170,6 +176,8 @@ app.get("/:customListName", async (req, res) => {
          console.log("Failed to delete list. Try Again");
        })
  });
+
+ app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 
 let port = process.env.PORT;
