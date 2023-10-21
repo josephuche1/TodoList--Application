@@ -10,13 +10,13 @@ The application was created to be responsive thereby allowing it to work well wi
 5. Delete custom lists.
 
 ### Mobile
-<img src="./Screenshot (127).png" alt="mobile">
+<img src="./public/images/Screenshot (127).png" alt="mobile">
 
 ### Desktop
-<img src="./Screenshot (128).png" alt="desktop">
+<img src="./public/images/Screenshot (128).png" alt="desktop">
 
 ### Adding custom List
-<img src="./Screenshot (129).png" alt="custom list">
+<img src="./public/images/Screenshot (129).png" alt="custom list">
 
 
 
