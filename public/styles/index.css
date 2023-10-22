@@ -1,0 +1,58 @@
+
+.feature-icon {
+    width: 4rem;
+    height: 4rem;
+    border-radius: 0.75rem;
+}
+
+#button2{
+    background-color: #9A3B3B;
+    border-radius: 5px;
+}
+
+#button1{
+   border: 1px #9A3B3B solid;
+   color: #9A3B3B;
+}
+
+#button1:hover{
+  border: none;
+  background-color: #9A3B3B;
+  color: white;
+}
+
+#heroes{
+    height: 25%;
+    transition: height 1s;
+}
+
+#icon{
+    background-color: #9A3B3B;
+    color:white;
+}
+
+.feature{
+    color: black; 
+}
+
+#footer .container{
+   width: 100%;
+}
+#submit{
+    background-color: #9A3B3B;
+}
+
+@media (min-width: 768px){
+    #heroes{
+        height: 580px;
+        transition: height 1s;
+    }
+    
+    #heroes:hover{
+        height: 600px;
+        
+    }
+    #footer .container{
+        width: 50%;
+     }
+}

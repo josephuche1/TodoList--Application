@@ -1,5 +1,5 @@
+// All depandencies
 import express from "express";
-// import bodyParser from "body-parser";
 import mongoose from "mongoose";
 import _ from "lodash";
 import fs from "fs";
@@ -7,9 +7,9 @@ import formidableMiddleware from "express-formidable";
 import mongodb from "mongodb";
 import path from "path";
 import crypto from "crypto";
-// import { Readable } from "stream";
 
 
+// variables
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const d = new Date();
@@ -17,11 +17,12 @@ const fullDate = days[d.getDay()]+", "+months[d.getMonth()]+" "+d.getDate();
 
 const mongoURI = "mongodb+srv://admin-joseph:olisa312@todolist.vkymokh.mongodb.net/todolistDB";
 const app = express();
-// const port = 3000;
+
+// Middlewares
 app.use(formidableMiddleware());
-// app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
 
+// connect to database
 mongoose.connect(mongoURI)
   .then(() => {
    console.log("Connected to DB successsfully.");
@@ -31,6 +32,7 @@ mongoose.connect(mongoURI)
 
 let gfs;
 
+// All Schemas
 const tasksSchema = new mongoose.Schema({
    task:{
       type: String,
@@ -70,9 +72,10 @@ const userSchema = new mongoose.Schema({
 
 });
 
-
+// Creating task model
 const Task = mongoose.model("Task", tasksSchema);
 
+// Creating default tasks/items 
 const task1 = new Task({
    task: "Welcome to your todolist!"
 });
@@ -87,38 +90,57 @@ const task3 = new Task({
 
 const defaultItems = [task1, task2, task3];
 
+// Creating List and User models
 const List = mongoose.model("list", listSchema);
 const User = mongoose.model("user", userSchema);
 
+// initializing conn variable and setting to our mongoose collection
 const conn = mongoose.connection;
 
+// setting up bucket/collection where user profile images will be stored
 conn.once('open', () => {
    gfs = new mongoose.mongo.GridFSBucket(conn.db, {
      bucketName: 'uploads' 
    });
  });
 
-app.get("/", async (req, res) => {
-   const tasks = await Task.find({});
-   const lists = await List.find({});
-   const user = await User.findById("6533afd674853633b3e425c7");
-   if(user.task.length === 0){
-      user.task.push(task1);
-      user.task.push(task2);
-      user.task.push(task3);
-      await user.save();
-      res.redirect("/");  
+// home route
+// renders the home page and users can login and signup from this page
+app.get("/", (req, res) => {
+   res.render("index.ejs");
+});
+
+// user homepage
+// @params username
+// renders the lists that the user currently has.
+app.get("/:username", async (req, res) => {
+   const username = req.params.username;
+   const user = await User.findOne({username: username});
+   if(user){
+      if(user.task.length === 0){
+         user.task.push(task1);
+         user.task.push(task2);
+         user.task.push(task3);
+         await user.save();
+         res.redirect(`/${user.username}`);  
+      } else{
+         res.render("lists.ejs", {lists: user.list, todaysTask: user.task, title: fullDate, user: user.username})
+      }
    } else{
-      res.render("lists.ejs", {lists: user.list, todaysTask: user.task, title: fullDate})
+      res.redirect("/");
    }
    
 });
 
-app.post("/", async (req, res) => { 
+// lists route
+// @param username
+// Adds tasks/items to specified list
+app.post("/:username/lists", async (req, res) => { 
    console.log(req.fields);
+   const username = req.params.username;
    const newTask = req.fields.newTask;
    const listName = req.fields.list;
-   const user = await User.findById("6533afd674853633b3e425c7");
+   const user = await User.findOne({username: username});
 
    const task = new Task({
      task: newTask
@@ -127,18 +149,22 @@ app.post("/", async (req, res) => {
    if(listName === fullDate){
       user.task.push(task);
       await user.save();
-      res.redirect("/");
+      res.redirect(`/${user.username}`);
    } else{
       const found = user.list.find((list) => list.name === listName);
       found.items.push(task);
       await user.save();
-      res.redirect(`/lists/${listName}`);
+      res.redirect(`/${user.username}/lists/${listName}`);
    }
    
 });
 
-app.post("/delete", async (req,res) => {
-   const user = await User.findById("6533afd674853633b3e425c7");
+// delete route
+// @param uaername
+// Deletes items/task from the specified list
+app.post("/:username/delete", async (req,res) => {
+   const username = req.params.username;
+   const user = await User.findOne({username: username});
    const checkedTask = req.fields.checkbox;
    const listName = req.fields.list;
 
@@ -147,19 +173,25 @@ app.post("/delete", async (req,res) => {
       user.task.splice(index, 1);
       await user.save();
       console.log("Item deleted");
-      res.redirect("/");
+      res.redirect(`/${user.username}`);
    } else{
       const found = user.list.findIndex((listN) => listN.name === listName);
       const itemIndex = user.list[found].items.findIndex((task) => task._id = checkedTask);
       user.list[found].items.splice(itemIndex, 1);
       await user.save();
       console.log("Item deleted");
-      res.redirect(`/lists/${listName}`);
+      res.redirect(`/${user.username}/lists/${listName}`);
    }
 });
 
-app.get("/lists/:customListName", async (req, res) => {
-   const user = await User.findById("6533afd674853633b3e425c7");
+// customList route
+// @param uaername
+// it will be called in the newList route
+// Handles the custom list and renders the necessary information to 
+// the user.
+app.get("/:username/lists/:customListName", async (req, res) => {
+   const username = req.params.username;
+   const user = await User.findOne({username: username});
    const customListName = _.capitalize(req.params.customListName);
 
    if(customListName === "Favicon.ico"){
@@ -171,7 +203,7 @@ app.get("/lists/:customListName", async (req, res) => {
      
          if (list) {
            const lists = user.list;
-           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name});
+           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name, user: user.username});
     
          } else {
            console.log(`List with name '${customListName}' not found. Creating newlist`);
@@ -181,7 +213,7 @@ app.get("/lists/:customListName", async (req, res) => {
            });
            user.list.push(newlist);
            await user.save();
-           res.redirect(`/lists/${customListName}`);
+           res.redirect(`/${user.username}/lists/${customListName}`);
          }
      
        } catch (err) {
@@ -193,28 +225,40 @@ app.get("/lists/:customListName", async (req, res) => {
    
  });
  
-app.post("/newList", (req, res) =>{
+ // newList route
+ // @params username
+ // the name of the custom list will be submitted here
+ // if list name is "today" or "" it returns the Today list
+app.post("/:username/newList", (req, res) =>{
+    const username = req.params.username;
     const newListName = _.capitalize(req.fields.newList);
     if(newListName === "Today" || newListName === ""){
-      res.redirect("/")
+      res.redirect(`/${username}`)
     }
     else{
-      res.redirect(`/lists/${newListName}`);
+      res.redirect(`/${username}/lists/${newListName}`);
     }
     
 });
 
-app.post("/deleteList", async (req,res) => {
-   const user = await User.findById("6533afd674853633b3e425c7");
+// deleteList route
+// @param username
+// Delete custom list that was created by user
+app.post("/:username/deleteList", async (req,res) => {
+   const username = req.params.username;
+   const user = await User.findOne({username: username});
    const listName = req.fields.listName;
    const index = user.list.findIndex((list) => list.name === listName);
    user.list.splice(index, 1);
    await user.save();
    console.log(`${listName} has been deleted`);
-   res.redirect("/");
+   res.redirect(`/${user.username}`);
 });
 
 
+// Signup route
+// allow users to sign up to listMate
+// stores all info in mongodb database
 app.post("/signup", async (req, res) => {
    const profile = req.files.profileImage;
    const password = req.fields.password;
@@ -222,7 +266,7 @@ app.post("/signup", async (req, res) => {
    const confirmUsername = req.fields.username;
    let filePath;
    
-   const userCheck  = await User.find({username: confirmUsername });
+   const userCheck  = await User.findOne({username: confirmUsername });
    if(userCheck){
       console.log("Username already taken");
       res.redirect("/");
@@ -260,7 +304,7 @@ app.post("/signup", async (req, res) => {
          });
          await newUser.save();
          uploadStream.on("finish", () => {
-            res.redirect("/");
+            res.redirect(`/${confirmUsername}`);
          });
       } 
       else{
@@ -293,11 +337,11 @@ app.post("/signup", async (req, res) => {
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
+// Server connection
 let port = process.env.PORT;
 if (port == null || port == "") {
   port = 3000;
 }
-
 app.listen(port, ()=>{
     console.log(`Server has started successfully`)
 });

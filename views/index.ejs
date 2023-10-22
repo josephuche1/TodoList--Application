@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles/index.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <title>TodoList</title>
+  </head>
+<body>
+    <section id="header">
+        <div class="container">
+            <header class="d-flex flex-wrap align-items-center justify-content-center justify-content-md-end py-3 mb-0">
+            
+              <div class="col-md-3 text-end">
+                <button id="button1" class="btn me-2" data-bs-toggle="modal" data-bs-target="#modalLogin">Login</button>
+                <button id="button2"  class="btn text-light" data-bs-toggle="modal" data-bs-target="#modalSignup">Sign-up</button>
+              </div>
+            </header>
+          </div>
+    </section>
+    <section id="hero">
+        <div id="heroes" class="row p-4 pb-0 pe-lg-0 pt-lg-5 align-items-center rounded-3 border shadow">
+            <div class="col-lg-7 p-3 p-lg-5 pt-lg-3">
+              <h1 class="display-4 fw-bold lh-1 text-body-emphasis">ListMate</h1>
+              <p class="lead">Your Ultimate List-Making Companion! Whether it's to-do lists, shopping lists, or bucket lists, ListMate helps you stay organized and productive. Create, manage, and share lists effortlessly with our user-friendly interface. Never forget a task or item again – ListMate has got you covered!</p>
+              <div class="d-grid gap-2 d-md-flex justify-content-md-start mb-4 mb-lg-3">
+                <button id="button2" class="btn btn-lg px-4 me-md-2 fw-bold text-light" data-bs-toggle="modal" data-bs-target="#modalSignup">Try it for free</button>
+                <button id="button1" class="btn btn-lg px-4" data-bs-toggle="modal" data-bs-target="#modalLogin">Log in</button>
+              </div>
+            </div>
+            <div class="col-lg-4 offset-lg-1 p-0 overflow-hidden shadow-lg">
+                <img class="rounded-lg-3" src="/images/Screenshot (128).png" alt="screenshot" width="720" height="500">
+            </div>
+          </div>
+    </section>
+    <section id="features">
+        <div class="container px-4 py-5" id="featured-3">
+            <h2 class="pb-2">Features</h2>
+            <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+              <div class="feature">
+                <div id="icon" class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-2 mb-3 shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-brush" viewBox="0 0 16 16">
+                        <path d="M15.825.12a.5.5 0 0 1 .132.584c-1.53 3.43-4.743 8.17-7.095 10.64a6.067 6.067 0 0 1-2.373 1.534c-.018.227-.06.538-.16.868-.201.659-.667 1.479-1.708 1.74a8.118 8.118 0 0 1-3.078.132 3.659 3.659 0 0 1-.562-.135 1.382 1.382 0 0 1-.466-.247.714.714 0 0 1-.204-.288.622.622 0 0 1 .004-.443c.095-.245.316-.38.461-.452.394-.197.625-.453.867-.826.095-.144.184-.297.287-.472l.117-.198c.151-.255.326-.54.546-.848.528-.739 1.201-.925 1.746-.896.126.007.243.025.348.048.062-.172.142-.38.238-.608.261-.619.658-1.419 1.187-2.069 2.176-2.67 6.18-6.206 9.117-8.104a.5.5 0 0 1 .596.04zM4.705 11.912a1.23 1.23 0 0 0-.419-.1c-.246-.013-.573.05-.879.479-.197.275-.355.532-.5.777l-.105.177c-.106.181-.213.362-.32.528a3.39 3.39 0 0 1-.76.861c.69.112 1.736.111 2.657-.12.559-.139.843-.569.993-1.06a3.122 3.122 0 0 0 .126-.75l-.793-.792zm1.44.026c.12-.04.277-.1.458-.183a5.068 5.068 0 0 0 1.535-1.1c1.9-1.996 4.412-5.57 6.052-8.631-2.59 1.927-5.566 4.66-7.302 6.792-.442.543-.795 1.243-1.042 1.826-.121.288-.214.54-.275.72v.001l.575.575zm-4.973 3.04.007-.005a.031.031 0 0 1-.007.004zm3.582-3.043.002.001h-.002z"/>
+                      </svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis fw-bolder">Custom List</h3>
+                <p>Tailor your lists to your unique needs with our app's customizable list feature. Create lists for any purpose and personalize them to suit your style and preferences.</p>
+              </div>
+              <div class="feature ">
+                <div id="icon" class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-2 mb-3 shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-plus" viewBox="0 0 16 16">
+                        <path d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z"/>
+                      </svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Add Items</h3>
+                <p>Quickly and easily populate your lists with the items you need to remember or accomplish. ListMate makes it a breeze to add new tasks, goals, or products with just a few taps</p>
+                
+              </div>
+              <div class="feature ">
+                <div id="icon" class="feature-icon d-inline-flex align-items-center justify-content-center bg-gradient fs-2 mb-3 shadow">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" class="bi bi-x-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14zm0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16z"/>
+                        <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+                      </svg>
+                </div>
+                <h3 class="fs-2 text-body-emphasis">Remove Items</h3>
+                <p>Stay organized by effortlessly removing completed tasks or items from your lists. ListMate's simple and intuitive interface allows you to declutter and keep your lists up to date with ease.</p>
+               
+              </div>
+            </div>
+          </div>
+    </section>
+    <section id="footer">
+        <div class="container">
+            <footer class="d-flex flex-wrap justify-content-between align-items-center p-3 my-4 shadow">
+              <div class="col-md-4 d-flex align-items-center">
+                <a href="/" class="mb-3 me-2 mb-md-0 text-body-secondary text-decoration-none lh-1">
+                  <svg class="bi" width="30" height="24"><use xlink:href="#bootstrap"></use></svg>
+                </a>
+                <span class="mb-3 mb-md-0 text-body-secondary">Created by Uche Joseph</span>
+              </div>
+          
+              <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
+                <li class="ms-3"><a class="text-body-secondary" href="https://github.com/josephuche1"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-github" viewBox="0 0 16 16">
+                    <path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.012 8.012 0 0 0 16 8c0-4.42-3.58-8-8-8z"/>
+                  </svg></a></li>
+                <li class="ms-3"><a class="text-body-secondary" href="https://www.linkedin.com/in/joseph-uche/"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-linkedin" viewBox="0 0 16 16">
+                    <path d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854V1.146zm4.943 12.248V6.169H2.542v7.225h2.401zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248-.822 0-1.359.54-1.359 1.248 0 .694.521 1.248 1.327 1.248h.016zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016a5.54 5.54 0 0 1 .016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225h2.4z"/>
+                  </svg></a></li>
+                <li class="ms-3"><a class="text-body-secondary" href="mailto:uchejesusboy@gmail.com"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-envelope" viewBox="0 0 16 16">
+                    <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V4Zm2-1a1 1 0 0 0-1 1v.217l7 4.2 7-4.2V4a1 1 0 0 0-1-1H2Zm13 2.383-4.708 2.825L15 11.105V5.383Zm-.034 6.876-5.64-3.471L8 9.583l-1.326-.795-5.64 3.47A1 1 0 0 0 2 13h12a1 1 0 0 0 .966-.741ZM1 11.105l4.708-2.897L1 5.383v5.722Z"/>
+                  </svg></use></svg></a></li>
+              </ul>
+            </footer>
+          </div>
+    </section>
+    
+
+    <!--Modals-->
+    <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="modalLogin">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+              <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div class="modal-body p-5 pt-0">
+              <form class="" action="/login" method="post">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="thepanther123" name="username" required>
+                  <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="passsword" required>
+                  <label for="floatingPassword">Password</label>
+                </div>
+                <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Log In</button>
+                <small class="text-body-secondary">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#modalSignup">Sign Up</a></small>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    
+      <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignup">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+              <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div class="modal-body p-5 pt-0">
+              <form class="" action="/signup" method="post" enctype="multipart/form-data">
+                <div class="mb-3">
+                  <label for="formFile" class="form-label">Profile Picture</label>
+                  <input class="form-control" type="file" id="formFile" name="profileImage">
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com" name="email" required>
+                  <label for="floatingInput">Email address</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="thepanther123" name="username" required>
+                  <label for="floatingInput">Username</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="password" required>
+                  <label for="floatingPassword">Password</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="confirm_password" required>
+                  <label for="floatingPassword">Confirm Password</label>
+                </div>
+                <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Sign Up</button>
+                <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

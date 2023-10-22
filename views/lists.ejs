@@ -4,7 +4,7 @@
   </div>
   
   <div id="input-task" class="container mb-3">
-    <form action="/" method="POST" class="row px-2 ">
+    <form action="/<%= user %>/lists" method="POST" class="row px-2 ">
         <input name="newTask" type="text" placeholder="Add new task/item" class="col-10 rounded-start shadow" required>
         <button type="submit" id="submit" name="list" value="<%= title %>" class="col-2 fs-4 rounded-end shadow">+</button>
     </form>
@@ -15,7 +15,7 @@
     <% if(locals.todaysTask){ %>
       <div class="row">
         <% todaysTask.forEach((todo) => {%>
-          <form action="/delete" method="post" class="col-12 px-0 ">
+          <form action="/<%= user %>/delete" method="post" class="col-12 px-0 ">
             <div class="w-100 py-3 border-bottom">
               <input name="checkbox" type="checkbox" data-text-id="<%= i %>" class="check ms-0" onChange="this.form.submit()" value="<%= todo._id %>">
               <input type="hidden" name="list" value="<%= title %>">
@@ -28,67 +28,5 @@
     <% } %>
   </div>
   
-  <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="modalLogin">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content rounded-4 shadow">
-        <div class="modal-header p-5 pb-4 border-bottom-0">
-          <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-  
-        <div class="modal-body p-5 pt-0">
-          <form class="" action="/login" method="post">
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="thepanther123" name="username" required>
-              <label for="floatingInput">Username</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="passsword" required>
-              <label for="floatingPassword">Password</label>
-            </div>
-            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Log In</button>
-            <small class="text-body-secondary">Don't have an account? <a href="#" data-bs-toggle="modal" data-bs-target="#modalSignup">Sign Up</a></small>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="modalSignup">
-    <div class="modal-dialog" role="document">
-      <div class="modal-content rounded-4 shadow">
-        <div class="modal-header p-5 pb-4 border-bottom-0">
-          <h1 class="fw-bold mb-0 fs-2">Sign up for free</h1>
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-        </div>
-  
-        <div class="modal-body p-5 pt-0">
-          <form class="" action="/signup" method="post" enctype="multipart/form-data">
-            <div class="mb-3">
-              <label for="formFile" class="form-label">Profile Picture</label>
-              <input class="form-control" type="file" id="formFile" name="profileImage">
-            </div>
-            <div class="form-floating mb-3">
-              <input type="email" class="form-control rounded-3" id="floatingInput" placeholder="name@example.com" name="email" required>
-              <label for="floatingInput">Email address</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="thepanther123" name="username" required>
-              <label for="floatingInput">Username</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="password" required>
-              <label for="floatingPassword">Password</label>
-            </div>
-            <div class="form-floating mb-3">
-              <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="confirm_password" required>
-              <label for="floatingPassword">Confirm Password</label>
-            </div>
-            <button class="w-100 mb-2 btn btn-lg rounded-3 btn-primary" type="submit">Sign Up</button>
-            <small class="text-body-secondary">By clicking Sign up, you agree to the terms of use.</small>
-          </form>
-        </div>
-      </div>
-    </div>
-  </div>
 <%- include("partials/footer.ejs") %>

@@ -22,7 +22,7 @@
             </a>
           
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalLogin">Profile</a></li>
+              <li><a class="dropdown-item" href="#" >Profile</a></li>
               <li><a class="dropdown-item" href="#">Sign out</a></li>
               <li><a class="dropdown-item" href="#">hehe</a></li>
             </ul>
@@ -34,15 +34,15 @@
             </button>
             <ul class="dropdown-menu w-100">
               <li>
-                <form action="/newList" method="post" class="d-flex gap-1">
+                <form action="/<%= user %>/newList" method="post" class="d-flex gap-1">
                   <input type="text" name="newList" placeholder="Add new list" class="flex-grow-1">
                   <input type="submit" value="+">
                 </form>
               </li>
-              <li> <a class="dropdown-item" href="/">Today</a></li>
+              <li> <a class="dropdown-item" href="/<%= user %>">Today</a></li>
               <% lists.forEach((list) =>{ %>
-                <form action="/deleteList" method="post" class="d-flex border justify-content-between">
-                  <li> <a class="dropdown-item" href="/lists/<%= list.name %>"><%= list.name %></a></li>
+                <form action="/<%= user %>/deleteList" method="post" class="d-flex border justify-content-between">
+                  <li> <a class="dropdown-item" href="/<%= user %>/lists/<%= list.name %>"><%= list.name %></a></li>
 
                   <button type="submit" class="bg-transparent border-0" name="listName" value="<%= list.name %>"><svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-trash" viewBox="0  0 16 16">
                     <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
