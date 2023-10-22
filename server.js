@@ -10,6 +10,7 @@ import crypto from "crypto";
 
 
 // variables
+let show;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const d = new Date();
@@ -107,7 +108,7 @@ conn.once('open', () => {
 // home route
 // renders the home page and users can login and signup from this page
 app.get("/", (req, res) => {
-   res.render("index.ejs");
+   res.render("index.ejs", {notification: " ", show: false});
 });
 
 // user homepage
@@ -118,13 +119,13 @@ app.get("/:username", async (req, res) => {
    const user = await User.findOne({username: username});
    if(user){
       if(user.task.length === 0){
-         user.task.push(task1);
-         user.task.push(task2);
-         user.task.push(task3);
+         for(let i = 0; i < defaultItems.length; i++){
+            user.task.push(defaultItems[i]);
+         }
          await user.save();
          res.redirect(`/${user.username}`);  
       } else{
-         res.render("lists.ejs", {lists: user.list, todaysTask: user.task, title: fullDate, user: user.username})
+         res.render("lists.ejs", {lists: user.list, todaysTask: user.task, title: fullDate, user: user})
       }
    } else{
       res.redirect("/");
@@ -135,7 +136,7 @@ app.get("/:username", async (req, res) => {
 // lists route
 // @param username
 // Adds tasks/items to specified list
-app.post("/:username/lists", async (req, res) => { 
+app.post("/:username/add", async (req, res) => { 
    console.log(req.fields);
    const username = req.params.username;
    const newTask = req.fields.newTask;
@@ -169,17 +170,15 @@ app.post("/:username/delete", async (req,res) => {
    const listName = req.fields.list;
 
    if(listName === fullDate){
-      const index = user.task.findIndex((task) => task._id === checkedTask);
+      const index = user.task.findIndex((task) => task._id.toString() === checkedTask);
       user.task.splice(index, 1);
       await user.save();
-      console.log("Item deleted");
       res.redirect(`/${user.username}`);
    } else{
       const found = user.list.findIndex((listN) => listN.name === listName);
-      const itemIndex = user.list[found].items.findIndex((task) => task._id = checkedTask);
+      const itemIndex = user.list[found].items.findIndex((task) => task._id.toString() === checkedTask);
       user.list[found].items.splice(itemIndex, 1);
       await user.save();
-      console.log("Item deleted");
       res.redirect(`/${user.username}/lists/${listName}`);
    }
 });
@@ -268,7 +267,7 @@ app.post("/signup", async (req, res) => {
    
    const userCheck  = await User.findOne({username: confirmUsername });
    if(userCheck){
-      console.log("Username already taken");
+      res.render("index.ejs", {notification: "Username already taken", show: show});
       res.redirect("/");
    }
    else{
@@ -314,25 +313,54 @@ app.post("/signup", async (req, res) => {
    } 
 });
 
-// app.get("/images/:filename", async (req,res) => {
-//    try{
-//        const file = await gfs.find({filename: req.params.filename}).toArray();
-//        if(!file || file.length === 0){
-//            res.json({error: "No file found"});
-//        }
-//        else{
-//            if(file[0].metadata.type == "image/jpeg" || file[0].metadata.type == "image/png"){
-//                const readstream = gfs.openDownloadStreamByName(req.params.filename);
-//                readstream.pipe(res);
-//            }
-//            else{
-//                res.json({NotImage: "Not an image"});
-//            }
-//        }
-//    }catch(err){
-//        res.status(404).send({Error: err.message});
-//    }
-// });
+// Login route
+// Users with accounts can log in htrough this route
+// Performs a check to see if user with the given username and password exists in the database
+app.post("/login", async (req,res) => {
+   const username = req.fields.username;
+   const password = req.fields.password;
+   const user = await User.findOne({username: username, password: password});
+   if(user){
+      res.redirect(`/${user.username}`);
+   }
+   else{
+      show = true;
+      res.render("index.ejs", {notification: "Wrong username or password", show: show});
+   }
+});
+
+// ok route
+// redirects user to home page after canceling notification
+app.get("/ok", (req,res) => {
+   res.redirect("/");
+});
+
+// image route
+// @params username
+// handles the displaying of the users profile picture
+app.get("/:username/image", async (req,res) => {
+   try{
+       const user = await User.findOne({username: req.params.username});
+       if(user){
+         const profilePicture = user.profileImage.filename;
+         const file = await gfs.find({filename: profilePicture}).toArray();
+         if(!file || file.length === 0){
+            console.log("No file found");
+         }
+         else{
+            if(file[0].metadata.type === "image/jpeg" || file[0].metadata.type === "image/png"){
+               const readStream = gfs.openDownloadStreamByName(profilePicture);
+               readStream.pipe(res);
+            }
+            else{
+               console.log("Not an image");
+            }
+         }
+       }
+   }catch(err){
+       res.status(404).send({Error: err.message});
+   }
+});
 
 
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));

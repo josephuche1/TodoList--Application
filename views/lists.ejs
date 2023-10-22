@@ -4,7 +4,7 @@
   </div>
   
   <div id="input-task" class="container mb-3">
-    <form action="/<%= user %>/lists" method="POST" class="row px-2 ">
+    <form action="/<%= user.username %>/add" method="POST" class="row px-2 ">
         <input name="newTask" type="text" placeholder="Add new task/item" class="col-10 rounded-start shadow" required>
         <button type="submit" id="submit" name="list" value="<%= title %>" class="col-2 fs-4 rounded-end shadow">+</button>
     </form>
@@ -15,7 +15,7 @@
     <% if(locals.todaysTask){ %>
       <div class="row">
         <% todaysTask.forEach((todo) => {%>
-          <form action="/<%= user %>/delete" method="post" class="col-12 px-0 ">
+          <form action="/<%= user.username %>/delete" method="post" class="col-12 px-0 ">
             <div class="w-100 py-3 border-bottom">
               <input name="checkbox" type="checkbox" data-text-id="<%= i %>" class="check ms-0" onChange="this.form.submit()" value="<%= todo._id %>">
               <input type="hidden" name="list" value="<%= title %>">
