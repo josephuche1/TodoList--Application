@@ -202,7 +202,7 @@ app.get("/:username/lists/:customListName", async (req, res) => {
      
          if (list) {
            const lists = user.list;
-           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name, user: user.username});
+           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name, user: user});
     
          } else {
            console.log(`List with name '${customListName}' not found. Creating newlist`);
