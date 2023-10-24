@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/public/styles/profile.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <title>ListMate</title>
+</head>
+<body>
+    <main>
+       <section id="header" class="border-bottom border-dark" >
+          <div id="back-arrow" class="shadow">
+            <a href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+                <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
+              </svg></a>
+          </div>
+       </section>
+
+       <section id="profile-image" class="border-end border-dark">
+        <div>
+            <img src="/public/images/person.svg" alt="profile-pic" class="shadow">
+            <button><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square shadow" viewBox="0 0 16 16">
+               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+            </svg></button>
+        </div>
+       </section>
+
+       <section id="details">
+         <div id="email" class="shadow">
+            <p>name@example.com</p>
+            <button data-bs-toggle="modal" data-bs-target="#change-email"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+              <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+              <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+           </svg></button>
+         </div>
+         <div id="username" class="shadow">
+                <p>example123</p>
+                <button data-bs-toggle="modal" data-bs-target="#change-username"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                  <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                  <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                </svg></button>
+         </div>
+         <div id="password" class="shadow">
+                <p>******</p>
+                <div id="see-and-submit">
+                    <a href="#" id="eye"><img src="/public/images/eye-slash.svg" height="20" width="20"></a>
+                    <button data-bs-toggle="modal" data-bs-target="#change-password"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
+                        <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
+                        <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
+                   </svg></button>
+                </div>
+         </div>
+       </section>
+
+       <section id="lists" >
+           <p class="shadow-lg">example123's Lists</p>
+           <ul class="shadow-lg">
+               <div><li><a href="#">List 1</a></li></div>
+               <div><li><a href="#">List 2</a></li></div>
+               <div><li><a href="#">List 3</a></li></div>
+               <div><li><a href="#">List 4</a></li></div>
+            </ul>
+       </section>
+    </main>
+     
+    <!--Modals-->
+    <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="change-password">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+              <h1 class="fw-bold mb-0 fs-2">Change Password</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div class="modal-body p-5 pt-0">
+              <form class="" action="/edit/change-password" method="post">
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control rounded-3" id="floatingPassword1" placeholder="New Password" name="new-password" required>
+                  <label for="floatingPassword1">New Password</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="confirm-password" required>
+                  <label for="floatingPassword">Confirm Password</label>
+                </div>
+                <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Change Password</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+    
+    <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="change-username">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+              <h1 class="fw-bold mb-0 fs-2">Change Username</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div class="modal-body p-5 pt-0">
+              <form class="" action="/edit/change-password" method="post">
+                <div class="form-floating mb-3">
+                  <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="example123" name="new-username" required>
+                  <label for="floatingInput">New Username</label>
+                </div>
+                <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Change Username</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+
+    <div class="modal modal-sheet p-4 py-md-5" tabindex="-1" role="dialog" id="change-email">
+        <div class="modal-dialog" role="document">
+          <div class="modal-content rounded-4 shadow">
+            <div class="modal-header p-5 pb-4 border-bottom-0">
+              <h1 class="fw-bold mb-0 fs-2">change Email</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+      
+            <div class="modal-body p-5 pt-0">
+              <form class="" action="/edit/change-email" method="post">
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control rounded-3" id="floatingEmail1" placeholder="name@example.com" name="new-email" required>
+                  <label for="floatingEmail1">New Email Address</label>
+                </div>
+                <div class="form-floating mb-3">
+                  <input type="email" class="form-control rounded-3" id="floatingEmail" placeholder="name@example.com" name="confirm-email" required>
+                  <label for="floatingEmail">Confirm Email Address</label>
+                </div>
+                <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Change Email</button>
+              </form>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
