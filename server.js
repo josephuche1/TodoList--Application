@@ -7,6 +7,7 @@ import formidableMiddleware from "express-formidable";
 import mongodb from "mongodb";
 import path from "path";
 import crypto from "crypto";
+import bcrypt from "bcrypt";
 
 
 // variables
@@ -67,7 +68,6 @@ const userSchema = new mongoose.Schema({
       required: [true, "please choose a password"]
    },
    task: [tasksSchema],
-   isLoggedIn: Boolean,
    list: [listSchema], 
    profileImage: profileImageSchema
 
@@ -137,7 +137,6 @@ app.get("/:username", async (req, res) => {
 // @param username
 // Adds tasks/items to specified list
 app.post("/:username/add", async (req, res) => { 
-   console.log(req.fields);
    const username = req.params.username;
    const newTask = req.fields.newTask;
    const listName = req.fields.list;
@@ -272,13 +271,14 @@ app.post("/signup", async (req, res) => {
    }
    else{
       if(password === confirm){
-         if(profile){
-            const buf = crypto.randomBytes(16);
-            filePath = buf.toString('hex') + path.extname(profile.name);
-         }
-         else{
-            filePath = "person.svg";
-         }
+         // Encrypting user password
+         const hash = await bcrypt.hash(password, 15);
+
+         // giving profile picture a unique name
+         const buf = crypto.randomBytes(16);
+         filePath = buf.toString('hex') + path.extname(profile.name);
+
+
          const readStream = fs.createReadStream(profile.path);
          
          const uploadStream = gfs.openUploadStream(filePath, {
@@ -295,7 +295,7 @@ app.post("/signup", async (req, res) => {
           const newUser = new User({
             username: req.fields.username,
             email: req.fields.email,
-            password: req.fields.password,
+            password: hash,
             isLoggedIn: true,
             profileImage: {
                filename: filePath,
@@ -319,14 +319,22 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req,res) => {
    const username = req.fields.username;
    const password = req.fields.password;
-   const user = await User.findOne({username: username, password: password});
+   const user = await User.findOne({username: username});
    if(user){
-      res.redirect(`/${user.username}`);
+      const isMatch = await bcrypt.hash(password, user.password);
+      if(isMatch){
+         res.redirect(`/${user.username}`);
+      }
+      else{
+         show = true;
+         res.render("index.ejs", {notification: "Wrong username or password", show: show});
+      }
    }
    else{
       show = true;
       res.render("index.ejs", {notification: "Wrong username or password", show: show});
    }
+   
 });
 
 // ok route
@@ -345,7 +353,7 @@ app.get("/:username/image", async (req,res) => {
          const profilePicture = user.profileImage.filename;
          const file = await gfs.find({filename: profilePicture}).toArray();
          if(!file || file.length === 0){
-            console.log("No file found");
+            res.sendStatus(204);
          }
          else{
             if(file[0].metadata.type === "image/jpeg" || file[0].metadata.type === "image/png"){
@@ -353,7 +361,7 @@ app.get("/:username/image", async (req,res) => {
                readStream.pipe(res);
             }
             else{
-               console.log("Not an image");
+               res.sendStatus(204);
             }
          }
        }
@@ -362,7 +370,72 @@ app.get("/:username/image", async (req,res) => {
    }
 });
 
+app.get("/:username/profile", async (req,res) => {
+   const user = await User.findOne({username: req.params.username});
+   res.render("profile.ejs", {notification: "", show: false, user: user, showPassword: false });
+});
 
+app.post("/:username/edit/change-profile-pic", async (req, res) => {
+   const profile = req.files.profileImage;
+   const user = await User.findOne({username: req.params.username});
+
+   if(user){
+      // find and delete old profile picture from database
+      const oldPic = user.profileImage.filename;
+      const file = await gfs.find({filename: oldPic}).toArray();
+      gfs.delete(file[0]._id);
+      
+      // Rename and save new profile picture
+      const buf = crypto.randomBytes(16);
+      const filePath = buf.toString('hex') + path.extname(profile.name);
+      const readStream = fs.createReadStream(profile.path);
+         
+      const uploadStream = gfs.openUploadStream(filePath, {
+               chunkSizeBytes: 1048576,
+               metadata:{
+                  name: profile.name,
+                  size: profile.size, 
+                  type: profile.type
+               }
+      });
+            
+      readStream.pipe(uploadStream);
+      uploadStream.on("finish", async () => {
+         user.profileImage.filename = filePath;
+         await user.save();
+         res.redirect(`/${user.username}/profile`);
+      });
+   }
+});
+
+app.post("/:username/edit/change-email", async (req,res) => {
+   const newEmail = req.fields.newEmail;
+   const confirmEmail = req.fields.confirmEmail;
+   const user = await User.findOne({username: req.params.username})
+
+   if(newEmail === confirmEmail){
+      await User.findOneAndUpdate({username: req.params.username}, {email: newEmail});
+      res.redirect(`/${req.params.username}/profile`);
+   }
+   else{
+      res.render("profile.ejs", {notification: "Emails don't match", show: true, user: user, showPassword: false });
+   }
+});
+
+app.post("/:username/edit/change-username", async (req, res) => {
+   const user = await User.findOne({username: req.params.username});
+   const newUsername = req.fields.newUsername;
+   const checkForUser = await User.findOne({username: newUsername});
+
+   if(checkForUser){
+      res.render("profile.ejs", {notification: "Username Already taken", show: true, user: user, showPassword: false });
+   }
+   else{
+      user.username = newUsername;
+      await user.save();
+      res.redirect(`/${user.username}/profile`);
+   }
+})
 
 
 

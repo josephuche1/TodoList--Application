@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="/public/styles/profile.css">
+    <link rel="stylesheet" href="/styles/profile.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <title>ListMate</title>
@@ -12,7 +12,7 @@
     <main>
        <section id="header" class="border-bottom border-dark" >
           <div id="back-arrow" class="shadow">
-            <a href="/"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
+            <a href="/<%= user.username %>"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-left" viewBox="0 0 16 16">
                 <path fill-rule="evenodd" d="M15 8a.5.5 0 0 0-.5-.5H2.707l3.147-3.146a.5.5 0 1 0-.708-.708l-4 4a.5.5 0 0 0 0 .708l4 4a.5.5 0 0 0 .708-.708L2.707 8.5H14.5A.5.5 0 0 0 15 8z"/>
               </svg></a>
           </div>
@@ -20,7 +20,7 @@
 
        <section id="profile-image" class="border-end border-dark">
         <div>
-            <img src="/public/images/person.svg" alt="profile-pic" class="shadow">
+            <img src="/<%= user.username %>/image" alt="profile-pic" class="shadow">
             <button data-bs-toggle="modal" data-bs-target="#change-profile-pic"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square shadow" viewBox="0 0 16 16">
                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -30,14 +30,14 @@
 
        <section id="details">
          <div id="email" class="shadow">
-            <p>name@example.com</p>
+            <p><%= user.email %></p>
             <button data-bs-toggle="modal" data-bs-target="#change-email"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
               <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
               <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
            </svg></button>
          </div>
          <div id="username" class="shadow">
-                <p>example123</p>
+                <p><%= user.username %></p>
                 <button data-bs-toggle="modal" data-bs-target="#change-username"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                   <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -46,7 +46,7 @@
          <div id="password" class="shadow">
                 <p>******</p>
                 <div id="see-and-submit">
-                    <a href="#" id="eye"><img src="/public/images/eye-slash.svg" height="20" width="20"></a>
+                    <a href="#" id="eye"><img src="/images/eye-slash.svg" height="20" width="20"></a>
                     <button data-bs-toggle="modal" data-bs-target="#change-password"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -56,12 +56,12 @@
        </section>
 
        <section id="lists" >
-           <p class="shadow-lg">example123's Lists</p>
+           <p class="shadow-lg"><%= user.username%>'s Lists</p>
            <ul class="shadow-lg">
-               <div><li><a href="#">List 1</a></li></div>
-               <div><li><a href="#">List 2</a></li></div>
-               <div><li><a href="#">List 3</a></li></div>
-               <div><li><a href="#">List 4</a></li></div>
+              <% user.list.forEach((list) => {%>
+                <div><li><a href="/<%= user.username %>/lists/<%= list.name %>"><%= list.name %></a></li></div>
+                  
+              <% })  %>
             </ul>
        </section>
     </main>
@@ -101,9 +101,9 @@
             </div>
       
             <div class="modal-body p-5 pt-0">
-              <form class="" action="/edit/change-password" method="post">
+              <form class="" action="/<%= user.username %>/edit/change-username" method="post">
                 <div class="form-floating mb-3">
-                  <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="example123" name="new-username" required>
+                  <input type="text" class="form-control rounded-3" id="floatingInput" placeholder="example123" name="newUsername" required>
                   <label for="floatingInput">New Username</label>
                 </div>
                 <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Change Username</button>
@@ -122,13 +122,13 @@
             </div>
       
             <div class="modal-body p-5 pt-0">
-              <form class="" action="/edit/change-email" method="post">
+              <form class="" action="/<%= user.username %>/edit/change-email" method="post">
                 <div class="form-floating mb-3">
-                  <input type="email" class="form-control rounded-3" id="floatingEmail1" placeholder="name@example.com" name="new-email" required>
+                  <input type="email" class="form-control rounded-3" id="floatingEmail1" placeholder="name@example.com" name="newEmail" required>
                   <label for="floatingEmail1">New Email Address</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="email" class="form-control rounded-3" id="floatingEmail" placeholder="name@example.com" name="confirm-email" required>
+                  <input type="email" class="form-control rounded-3" id="floatingEmail" placeholder="name@example.com" name="confirmEmail" required>
                   <label for="floatingEmail">Confirm Email Address</label>
                 </div>
                 <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Change Email</button>
@@ -147,7 +147,7 @@
             </div>
       
             <div class="modal-body p-5 pt-0">
-              <form class="" action="/edit/change-profile-pic" method="post" enctype="multipart/form-data">
+              <form class="" action="/<%= user.username %>/edit/change-profile-pic" method="post" enctype="multipart/form-data">
                 <div class="mb-3">
                     <label for="formFile" class="form-label">Profile Picture</label>
                     <input class="form-control" type="file" id="formFile" name="profileImage">
@@ -168,7 +168,7 @@
             </div>
       
             <div class="modal-body p-5 pt-0">
-              <form class="" action="/ok-profile" method="get">
+              <form class="" action="/<%= user.username %>/profile" method="get">
                 <div class="form-floating mb-3 ">
                   <p name="notification" class="fs-4"><%= notification %></p>
                 </div>
@@ -187,7 +187,7 @@
              const modalClose = $(".btn-close");
              modalClose.on("click", () =>{
                 modal.toggle(500);
-                window.location.replace("/ok-profile");
+                window.location.replace("/<%= user.username %>/profile");
              })
          </script>
     <% } %>
