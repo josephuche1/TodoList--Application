@@ -363,6 +363,18 @@ app.get("/:username/image", async (req,res) => {
 });
 
 
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/favicon.ico', (req, res) => res.sendStatus(204));
 
 // Server connection
