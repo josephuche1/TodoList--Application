@@ -274,37 +274,53 @@ app.post("/signup", async (req, res) => {
          // Encrypting user password. Hashing password with bycrypt
          const hash = await bcrypt.hash(password, 15);
 
-         // giving profile picture a unique name
-         const buf = crypto.randomBytes(16);
-         const filePath = buf.toString('hex') + path.extname(profile.name);
+         if(profile.name !== ""){
+                     // giving profile picture a unique name
+            const buf = crypto.randomBytes(16);
+            const filePath = buf.toString('hex') + path.extname(profile.name);
 
 
-         const readStream = fs.createReadStream(profile.path);
+            const readStream = fs.createReadStream(profile.path);
          
-         const uploadStream = gfs.openUploadStream(filePath, {
-               chunkSizeBytes: 1048576,
-               metadata:{
-                  name: profile.name,
-                  size: profile.size, 
-                  type: profile.type
-               }
-         });
+            const uploadStream = gfs.openUploadStream(filePath, {
+                  chunkSizeBytes: 1048576,
+                  metadata:{
+                     name: profile.name,
+                     size: profile.size, 
+                     type: profile.type
+                  }
+            });
             
-         readStream.pipe(uploadStream);
+            readStream.pipe(uploadStream);
       
-          const newUser = new User({
-            username: req.fields.username,
-            email: req.fields.email,
-            password: hash,
-            isLoggedIn: true,
-            profileImage: {
-               filename: filePath,
-            }
-         });
-         await newUser.save();
-         uploadStream.on("finish", () => {
+             const newUser = new User({
+               username: req.fields.username,
+               email: req.fields.email,
+               password: hash,
+               isLoggedIn: true,
+               profileImage: {
+                  filename: filePath,
+               }
+            });
+            await newUser.save();
+            uploadStream.on("finish", () => {
+               res.redirect(`/${confirmUsername}`);
+            });
+            
+         }
+         else{
+            const newUser = new User({
+               username: req.fields.username,
+               email: req.fields.email,
+               password: hash,
+               isLoggedIn: true,
+               profileImage: {
+                  filename: "default",
+               }
+            });
+            await newUser.save();
             res.redirect(`/${confirmUsername}`);
-         });
+         }
       } 
       else{
          console.log("please make sure that that confirm password is the same as the password");
@@ -384,8 +400,11 @@ app.post("/:username/edit/change-profile-pic", async (req, res) => {
    if(user){
       // find and delete old profile picture from database
       const oldPic = user.profileImage.filename;
-      const file = await gfs.find({filename: oldPic}).toArray();
-      gfs.delete(file[0]._id);
+      if(oldPic !== "default"){
+         const file = await gfs.find({filename: oldPic}).toArray();
+         gfs.delete(file[0]._id);
+      }
+      
       
       // Rename and save new profile picture
       const buf = crypto.randomBytes(16);
@@ -484,6 +503,11 @@ app.get("/:username/profile/show-password", async (req, res) => {
    
 })
 
+// sign out route
+// redirects user back to the landing page
+app.get("/signout", (req, res) => {
+   res.redirect("/");
+})
 
 
 
