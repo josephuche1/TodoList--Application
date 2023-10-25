@@ -469,6 +469,9 @@ app.post("/:username/edit/change-password", async(req, res) => {
     }
 });
 
+// show password
+// @param username
+// handles the display and hiding of user password 
 app.get("/:username/profile/show-password", async (req, res) => {
    const user = await User.findOne({username: req.params.username});
    if(!showPassword){
