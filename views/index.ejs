@@ -174,7 +174,7 @@
             </div>
       
             <div class="modal-body p-5 pt-0">
-              <form class="" action="/ok" method="get">
+              <form class="" action="/" method="get">
                 <div class="form-floating mb-3 ">
                   <p name="notification" class="fs-4"><%= notification %></p>
                 </div>
@@ -193,7 +193,7 @@
              const modalClose = $(".btn-close");
              modalClose.on("click", () =>{
                 modal.toggle(500);
-                window.location.replace("/ok");
+                window.location.replace("/");
              })
          </script>
     <% } %>

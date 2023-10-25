@@ -44,9 +44,13 @@
                 </svg></button>
          </div>
          <div id="password" class="shadow">
-                <p>******</p>
+                <% if(showPassword) {%>
+                  <p><%= pass %></p>
+                <% } else{ %>
+                  <p>******</p>
+                <% } %>
                 <div id="see-and-submit">
-                    <a href="#" id="eye"><img src="/images/eye-slash.svg" height="20" width="20"></a>
+                    <a href="/<%= user.username %>/profile/show-password" id="eye"><img src="/images/eye-slash.svg" height="20" width="20"></a>
                     <button data-bs-toggle="modal" data-bs-target="#change-password"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">
                         <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
                         <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
@@ -58,6 +62,7 @@
        <section id="lists" >
            <p class="shadow-lg"><%= user.username%>'s Lists</p>
            <ul class="shadow-lg">
+              <div><li><a href="/<%= user.username %>">Today</a></li></div>
               <% user.list.forEach((list) => {%>
                 <div><li><a href="/<%= user.username %>/lists/<%= list.name %>"><%= list.name %></a></li></div>
                   
@@ -76,13 +81,13 @@
             </div>
       
             <div class="modal-body p-5 pt-0">
-              <form class="" action="/edit/change-password" method="post">
+              <form class="" action="/<%= user.username %>/edit/change-password" method="post">
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control rounded-3" id="floatingPassword1" placeholder="New Password" name="new-password" required>
+                  <input type="password" class="form-control rounded-3" id="floatingPassword1" placeholder="New Password" name="newPassword" required>
                   <label for="floatingPassword1">New Password</label>
                 </div>
                 <div class="form-floating mb-3">
-                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="confirm-password" required>
+                  <input type="password" class="form-control rounded-3" id="floatingPassword" placeholder="Password" name="confirmPassword" required>
                   <label for="floatingPassword">Confirm Password</label>
                 </div>
                 <button id="submit" class="w-100 mb-2 btn btn-lg rounded-3 text-light" type="submit">Change Password</button>

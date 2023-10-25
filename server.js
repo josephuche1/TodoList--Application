@@ -12,6 +12,8 @@ import bcrypt from "bcrypt";
 
 // variables
 let show;
+let pass;
+let showPassword = false;
 const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
 const days = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const d = new Date();
@@ -125,7 +127,7 @@ app.get("/:username", async (req, res) => {
          await user.save();
          res.redirect(`/${user.username}`);  
       } else{
-         res.render("lists.ejs", {lists: user.list, todaysTask: user.task, title: fullDate, user: user})
+         res.render("lists.ejs", {lists: user.list, todaysTask: user.task, title: fullDate, user: user, pass: pass})
       }
    } else{
       res.redirect("/");
@@ -201,10 +203,9 @@ app.get("/:username/lists/:customListName", async (req, res) => {
      
          if (list) {
            const lists = user.list;
-           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name, user: user});
+           res.render("lists.ejs", {lists: lists, todaysTask: list.items, title: list.name, user: user, pass: pass});
     
          } else {
-           console.log(`List with name '${customListName}' not found. Creating newlist`);
            const newlist = new List({
              name: customListName,
              items: defaultItems
@@ -249,7 +250,6 @@ app.post("/:username/deleteList", async (req,res) => {
    const index = user.list.findIndex((list) => list.name === listName);
    user.list.splice(index, 1);
    await user.save();
-   console.log(`${listName} has been deleted`);
    res.redirect(`/${user.username}`);
 });
 
@@ -262,7 +262,7 @@ app.post("/signup", async (req, res) => {
    const password = req.fields.password;
    const confirm = req.fields.confirm_password;
    const confirmUsername = req.fields.username;
-   let filePath;
+   pass = password;
    
    const userCheck  = await User.findOne({username: confirmUsername });
    if(userCheck){
@@ -271,12 +271,12 @@ app.post("/signup", async (req, res) => {
    }
    else{
       if(password === confirm){
-         // Encrypting user password
+         // Encrypting user password. Hashing password with bycrypt
          const hash = await bcrypt.hash(password, 15);
 
          // giving profile picture a unique name
          const buf = crypto.randomBytes(16);
-         filePath = buf.toString('hex') + path.extname(profile.name);
+         const filePath = buf.toString('hex') + path.extname(profile.name);
 
 
          const readStream = fs.createReadStream(profile.path);
@@ -319,6 +319,7 @@ app.post("/signup", async (req, res) => {
 app.post("/login", async (req,res) => {
    const username = req.fields.username;
    const password = req.fields.password;
+   pass = password;
    const user = await User.findOne({username: username});
    if(user){
       const isMatch = await bcrypt.hash(password, user.password);
@@ -335,12 +336,6 @@ app.post("/login", async (req,res) => {
       res.render("index.ejs", {notification: "Wrong username or password", show: show});
    }
    
-});
-
-// ok route
-// redirects user to home page after canceling notification
-app.get("/ok", (req,res) => {
-   res.redirect("/");
 });
 
 // image route
@@ -370,11 +365,18 @@ app.get("/:username/image", async (req,res) => {
    }
 });
 
+
+// profile route
+// @params username
+// renders the user's profile page
 app.get("/:username/profile", async (req,res) => {
    const user = await User.findOne({username: req.params.username});
-   res.render("profile.ejs", {notification: "", show: false, user: user, showPassword: false });
+   res.render("profile.ejs", {notification: "", show: false, user: user, showPassword: false, pass: pass });
 });
 
+// change profile picture route
+// @params username
+// replaces the old profile image of the user in the database
 app.post("/:username/edit/change-profile-pic", async (req, res) => {
    const profile = req.files.profileImage;
    const user = await User.findOne({username: req.params.username});
@@ -408,6 +410,9 @@ app.post("/:username/edit/change-profile-pic", async (req, res) => {
    }
 });
 
+// Change email route
+// @param username
+// updates the username of the user in the database
 app.post("/:username/edit/change-email", async (req,res) => {
    const newEmail = req.fields.newEmail;
    const confirmEmail = req.fields.confirmEmail;
@@ -418,25 +423,63 @@ app.post("/:username/edit/change-email", async (req,res) => {
       res.redirect(`/${req.params.username}/profile`);
    }
    else{
-      res.render("profile.ejs", {notification: "Emails don't match", show: true, user: user, showPassword: false });
+      res.render("profile.ejs", {notification: "Emails don't match", show: true, user: user, showPassword: false});
    }
 });
 
+
+// change username route
+// @params username
+// changes the username of the user from the old one to the new 
+// username if it is not yet taken
 app.post("/:username/edit/change-username", async (req, res) => {
    const user = await User.findOne({username: req.params.username});
    const newUsername = req.fields.newUsername;
    const checkForUser = await User.findOne({username: newUsername});
 
    if(checkForUser){
-      res.render("profile.ejs", {notification: "Username Already taken", show: true, user: user, showPassword: false });
+      res.render("profile.ejs", {notification: "Username Already taken", show: true, user: user, showPassword: false});
    }
    else{
       user.username = newUsername;
       await user.save();
       res.redirect(`/${user.username}/profile`);
    }
-})
+});
 
+// Change password route
+// @params username
+// Changes the user's password. Used bcrypt to encrypt the password
+// and improve security
+app.post("/:username/edit/change-password", async(req, res) => {
+    const newPassword = req.fields.newPassword;
+    const confirmPassword = req.fields.confirmPassword;
+    const user = await User.findOne({username: req.params.username});
+    if(newPassword === confirmPassword){
+       pass = newPassword;
+       // Hashing password with bycrypt
+       const hash = await bcrypt.hash(newPassword, 15);
+
+       user.password = hash;
+       await user.save();
+       res.redirect(`/${user.username}/profile`);
+    }
+    else{
+      res.render("profile.ejs", {notification: "Make sure the passwords are the same. Try again", show: true, user: user, showPassword: false });
+    }
+});
+
+app.get("/:username/profile/show-password", async (req, res) => {
+   const user = await User.findOne({username: req.params.username});
+   if(!showPassword){
+      showPassword = true;
+      res.render("profile.ejs", {notification: "", show: false, user: user, showPassword: showPassword, pass: pass});
+   }else{
+      showPassword = false;
+      res.render("profile.ejs", {notification: "", show: false, user: user, showPassword: showPassword, pass: pass});
+   }
+   
+})
 
 
 
