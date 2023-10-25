@@ -1,7 +1,7 @@
 # TodoList Application
 A To-do list application using Nodejs, Expressjs, Embedded JavaScript(EJS), and CSS. 
 The application was created to be responsive thereby allowing it to work well with desktop and mobile devices.
-Deployed using Heroku with a MongoDB database
+Deployed using Heroku with a MongoDB database.
 Click <a href="https://list-mate-c6cc53123dfb.herokuapp.com/">here</a> to visit web application
 
 ## Here is a list of features that the users are able to access: 
