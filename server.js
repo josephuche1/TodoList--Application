@@ -177,10 +177,16 @@ app.post("/:username/delete", async (req,res) => {
       res.redirect(`/${user.username}`);
    } else{
       const found = user.list.findIndex((listN) => listN.name === listName);
-      const itemIndex = user.list[found].items.findIndex((task) => task._id.toString() === checkedTask);
-      user.list[found].items.splice(itemIndex, 1);
-      await user.save();
-      res.redirect(`/${user.username}/lists/${listName}`);
+      if (user.list[found]) {
+         // rest of your code...
+         const itemIndex = user.list[found].items.findIndex((task) => task._id.toString() === checkedTask);
+         user.list[found].items.splice(itemIndex, 1);
+         await user.save();
+         res.redirect(`/${user.username}/lists/${listName}`);
+       } else {
+         console.log('List not found');
+       }
+
    }
 });
 
